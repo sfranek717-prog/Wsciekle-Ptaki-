@@ -28,3 +28,6 @@ install(TARGETS Wsciekle_Ptaki
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+if(MSVC)
+    add_compile_options(/utf-8)
+endif()

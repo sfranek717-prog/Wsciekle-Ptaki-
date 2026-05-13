@@ -12,7 +12,7 @@ public:
     void aktualizuj(Obiekt &obj, float dt); //kontrola parametrow jednostki
     void Status_Pozycji(Obiekt &obj); //sprawdza czy obiekt nie lezy na ziemi
     void Status_Nakladania(Obiekt &objA, Obiekt &objB);//obiekty nie beda wchodzic w siebie nawzajem
-    void Zasada_zachowania_pedu(Obiekt &objA, Obiekt &objB);//zasada zachowania pedu 
+    float Zasada_zachowania_pedu(Obiekt &objA, Obiekt &objB);//zasada zachowania pedu 
     
 };
 

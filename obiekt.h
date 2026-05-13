@@ -1,8 +1,9 @@
 #ifndef OBIEKT_H
 #define OBIEKT_H
+
 #include <string>
 
-enum class TypKsztaultu { KOLO, PROSTOKAT };
+enum class TypKsztaltu { KOLO, PROSTOKAT };
 
 class Obiekt {
 public:
@@ -10,12 +11,11 @@ public:
     float vx, vy;
     float x, y;
     float hp;
+    TypKsztaltu typ;
 
-    TypKsztaultu typ; //do okreslenia pozycjonowania
-
-    Obiekt(float m, float h, float px, float py, TypKsztaultu t)
-    : masa(m), hp(h), x(px), y(py), vx(0), vy(0), typ(t){}
+    Obiekt(float m, float h, float px, float py, TypKsztaltu t);
 
     virtual ~Obiekt() {}
 };
+
 #endif

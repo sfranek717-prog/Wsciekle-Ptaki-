@@ -5,11 +5,10 @@ class Silnik_fizyczny;
 class Silnik_Obrazen
 {
 private:
-const float E = 0.1f;
 public:
     Silnik_Obrazen();
-    void aktualizuj_stan(Obiekt &objA,Obiekt &objB);
+    void aplikuj_obrazenia(Obiekt &objA,Obiekt &objB,float sila_uderzeniowa);
 
 };
 
-#endif // SILNIK_OBRAZEN_H
+#endif 

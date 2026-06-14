@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "FizycznyDebbugger.h"
 #include "obiekt.h"
 
 class GuiMain {

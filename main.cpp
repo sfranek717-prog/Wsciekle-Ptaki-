@@ -14,21 +14,20 @@
 #include "lvl3.h"
 #include "GameOver.h"
 #include "MenuPauzy.h"
-#include "FizycznyDebbugger.h" 
 
-enum class GameState { MENU, WYBOR_LVL, LEVEL_1, LEVEL_2 , LEVEL_3,GAME_OVER};
+enum class GameState { MENU, WYBOR_LVL, LEVEL_1, LEVEL_2 , LEVEL_3, GAME_OVER };
 
 int main() {
     srand(time(NULL));
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Wsciekle Ptaki");
     window.setFramerateLimit(60);
 
-    Material p_czerw, p_nieb, p_zolt, p_czar, swinia,swinia_zolnierz,swinia_dziad;
+    Material p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad;
     Material drw_kulka, drw_kwad, drw_belka, drw_troj;
     Material kam_kulka, kam_kwad, kam_belka, kam_troj;
     Material lod_kulka, lod_kwad, lod_belka, lod_troj;
 
-    Obiekt::zainicjalizujMaterialy(p_czerw, p_nieb, p_zolt, p_czar, swinia,swinia_zolnierz,swinia_dziad, drw_kulka, drw_kwad, drw_belka, drw_troj, kam_kulka, kam_kwad, kam_belka, kam_troj, lod_kulka, lod_kwad, lod_belka, lod_troj);
+    Obiekt::zainicjalizujMaterialy(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, drw_kulka, drw_kwad, drw_belka, drw_troj, kam_kulka, kam_kwad, kam_belka, kam_troj, lod_kulka, lod_kwad, lod_belka, lod_troj);
 
     GuiMain gui(p_czerw, p_nieb, p_zolt, p_czar, swinia, drw_kulka, drw_kwad, drw_belka, drw_troj, kam_kulka, kam_kwad, kam_belka, kam_troj, lod_kulka, lod_kwad, lod_belka, lod_troj);
     Panellvl panelLvl;
@@ -38,7 +37,6 @@ int main() {
     Lvl11* lvl11 = nullptr;
     Lvl2* lvl2 = nullptr;
     Lvl3* lvl3 = nullptr;
-
 
     GameState currentState = GameState::MENU;
     Silnik_Obrazen obrazenia; 
@@ -53,26 +51,9 @@ int main() {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) window.close();
 
-            // Globalna obsługa klawisza K dla debuggerów w różnych stanach gry
-            if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-                if (keyPressed->code == sf::Keyboard::Key::K) {
-                    if (currentState == GameState::MENU) {
-                    }
-                    else if (currentState == GameState::LEVEL_1 && lvl11 != nullptr) {
-                        lvl11->debugger.przelacz();
-                    }
-                      else if (currentState == GameState::LEVEL_2 && lvl2 != nullptr) {
-                        lvl2->debugger.przelacz();
-                    }
-                      else if (currentState == GameState::LEVEL_3 && lvl3 != nullptr) {
-                        lvl3->debugger.przelacz();
-                    }
-                }
-            }
-
             // MENU GŁÓWNE
             if (currentState == GameState::MENU) {
-                gui.obslugujZdarzenia(*event, window); // Przekazujemy event do menu
+                gui.obslugujZdarzenia(*event, window); 
                 if (event->is<sf::Event::MouseButtonPressed>()) {
                     if (gui.ExitPanel(worldPos)) window.close();
                     if (gui.LvlPanel(worldPos)) { 
@@ -89,25 +70,26 @@ int main() {
                         currentState = GameState::LEVEL_1;
                         panelLvl.setActive(false);
                         if (lvl11 != nullptr) delete lvl11; 
-lvl11 = new Lvl11(p_czerw,p_czar, p_zolt,  swinia, swinia_zolnierz, swinia_dziad, 
-                  drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
-                  kam_kwad, kam_belka, kam_troj, obrazenia);                    }
+                        lvl11 = new Lvl11(p_czerw, p_czar, p_zolt, swinia, swinia_zolnierz, swinia_dziad, 
+                                          drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
+                                          kam_kwad, kam_belka, kam_troj, obrazenia);
+                    }
                     else if (panelLvl.isLvl2Clicked(worldPos)) {
                         currentState = GameState::LEVEL_2;
                         panelLvl.setActive(false);
-                       panelLvl.setActive(false);
                         if (lvl2 != nullptr) delete lvl2; 
-lvl2 = new Lvl2(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, 
-                drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
-                kam_kwad, kam_belka, kam_troj, obrazenia);                    }
-                         else if (panelLvl.isLvl3Clicked(worldPos)) {
+                        lvl2 = new Lvl2(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, 
+                                        drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
+                                        kam_kwad, kam_belka, kam_troj, obrazenia);
+                    }
+                    else if (panelLvl.isLvl3Clicked(worldPos)) {
                         currentState = GameState::LEVEL_3;
                         panelLvl.setActive(false);
-                       panelLvl.setActive(false);
                         if (lvl3 != nullptr) delete lvl3; 
-lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, 
-                drw_kwad, drw_belka, drw_troj, kam_kwad, kam_belka, kam_troj, 
-                obrazenia);          }
+                        lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, 
+                                        drw_kwad, drw_belka, drw_troj, kam_kwad, kam_belka, kam_troj, 
+                                        obrazenia);
+                    }
                     else if (panelLvl.isExitClicked(worldPos)) {
                         panelLvl.setActive(false);
                     }
@@ -134,10 +116,10 @@ lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
                     }
                     else if (menuPauzy.isResetClicked(worldPos)) {
                         delete lvl11;
-lvl11 = new Lvl11(p_czerw, p_czar, p_zolt,swinia, swinia_zolnierz, swinia_dziad, 
-                  drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
-                  kam_kwad, kam_belka, kam_troj, obrazenia);
-                                          menuPauzy.setAktywne(false);
+                        lvl11 = new Lvl11(p_czerw, p_czar, p_zolt, swinia, swinia_zolnierz, swinia_dziad, 
+                                          drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
+                                          kam_kwad, kam_belka, kam_troj, obrazenia);
+                        menuPauzy.setAktywne(false);
                     }
                     else if (menuPauzy.isExitClicked(worldPos)) {
                         delete lvl11;
@@ -146,9 +128,8 @@ lvl11 = new Lvl11(p_czerw, p_czar, p_zolt,swinia, swinia_zolnierz, swinia_dziad,
                         currentState = GameState::MENU;
                     }
                 }
-                
             }
-        // GRA W POZIOMIE 2
+            // GRA W POZIOMIE 2
             else if (currentState == GameState::LEVEL_2 && lvl2 != nullptr) {
                 if (!menuPauzy.isAktywne()) {
                     lvl2->obslugujZdarzenia(*event, window);
@@ -166,10 +147,10 @@ lvl11 = new Lvl11(p_czerw, p_czar, p_zolt,swinia, swinia_zolnierz, swinia_dziad,
                     }
                     else if (menuPauzy.isResetClicked(worldPos)) {
                         delete lvl2;
-lvl2 = new Lvl2(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, 
-                drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
-                kam_kwad, kam_belka, kam_troj, obrazenia);
-                                        menuPauzy.setAktywne(false);
+                        lvl2 = new Lvl2(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, 
+                                        drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
+                                        kam_kwad, kam_belka, kam_troj, obrazenia);
+                        menuPauzy.setAktywne(false);
                     }
                     else if (menuPauzy.isExitClicked(worldPos)) {
                         delete lvl2;
@@ -178,9 +159,8 @@ lvl2 = new Lvl2(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
                         currentState = GameState::MENU;
                     }
                 }
-                
             }
-                // GRA W POZIOMIE 3
+            // GRA W POZIOMIE 3
             else if (currentState == GameState::LEVEL_3 && lvl3 != nullptr) {
                 if (!menuPauzy.isAktywne()) {
                     lvl3->obslugujZdarzenia(*event, window);
@@ -198,9 +178,9 @@ lvl2 = new Lvl2(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
                     }
                     else if (menuPauzy.isResetClicked(worldPos)) {
                         delete lvl3;
-lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, 
-                drw_kwad, drw_belka, drw_troj, kam_kwad, kam_belka, kam_troj, 
-                obrazenia);
+                        lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia_dziad, 
+                                        drw_kwad, drw_belka, drw_troj, kam_kwad, kam_belka, kam_troj, 
+                                        obrazenia);
                         menuPauzy.setAktywne(false);
                     }
                     else if (menuPauzy.isExitClicked(worldPos)) {
@@ -210,7 +190,6 @@ lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
                         currentState = GameState::MENU;
                     }
                 }
-                
             }
             // SCREEN GAME OVER
             else if (currentState == GameState::GAME_OVER) {
@@ -232,9 +211,8 @@ lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
                 }
             }
         }
-// ==========================================
-        //       AKTUALIZACJE (UPDATE) - POPRAWIONE
-        // ==========================================
+
+       
         if (currentState == GameState::MENU) {
             gui.update(worldPos, window);
         }
@@ -244,51 +222,41 @@ lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
         else if (currentState == GameState::GAME_OVER) {
             gameover.update(worldPos);
         }
-                else if (currentState == GameState::LEVEL_3 && lvl3!= nullptr) {
+        else if (currentState == GameState::LEVEL_3 && lvl3 != nullptr) {
             if (menuPauzy.isAktywne()) {
                 menuPauzy.update(worldPos); 
             } else {
-                // 1. Najpierw fizyka i ruch obiektów
                 lvl3->update(dt, window, obrazenia);  
-
-                // 2. Od razu w tym samym miejscu sprawdzamy zasady gry!
                 int stan = lvl3->sprawdzStanGry();
 
                 if (stan == 1) { 
-                    // Wygrana!
-                    gameover.ustawWynik(true);           // Ustawi zielony napis "BRAWO..."
-                    currentState = GameState::GAME_OVER; // Przełączasz ekran gry na GameOver
+                    gameover.ustawWynik(true);          
+                    currentState = GameState::GAME_OVER; 
                     gameover.setActive(true); 
                 } 
                 else if (stan == 2) { 
-                    // Przegrana!
                     gameover.setActive(true); 
-                    gameover.ustawWynik(false);          // Ustawi czerwony napis "PRZEGRANA..."
-                    currentState = GameState::GAME_OVER; // Przełączasz ekran gry na GameOver
+                    gameover.ustawWynik(false);          
+                    currentState = GameState::GAME_OVER; 
                 }
             }
         }
-        else if (currentState == GameState::LEVEL_2 && lvl2!= nullptr) {
+        else if (currentState == GameState::LEVEL_2 && lvl2 != nullptr) {
             if (menuPauzy.isAktywne()) {
                 menuPauzy.update(worldPos); 
             } else {
-                // 1. Najpierw fizyka i ruch obiektów
                 lvl2->update(dt, window, obrazenia);  
-
-                // 2. Od razu w tym samym miejscu sprawdzamy zasady gry!
                 int stan = lvl2->sprawdzStanGry();
 
                 if (stan == 1) { 
-                    // Wygrana!
-                    gameover.ustawWynik(true);           // Ustawi zielony napis "BRAWO..."
-                    currentState = GameState::GAME_OVER; // Przełączasz ekran gry na GameOver
+                    gameover.ustawWynik(true);          
+                    currentState = GameState::GAME_OVER; 
                     gameover.setActive(true); 
                 } 
                 else if (stan == 2) { 
-                    // Przegrana!
                     gameover.setActive(true); 
-                    gameover.ustawWynik(false);          // Ustawi czerwony napis "PRZEGRANA..."
-                    currentState = GameState::GAME_OVER; // Przełączasz ekran gry na GameOver
+                    gameover.ustawWynik(false);          
+                    currentState = GameState::GAME_OVER; 
                 }
             }
         }
@@ -296,28 +264,22 @@ lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
             if (menuPauzy.isAktywne()) {
                 menuPauzy.update(worldPos); 
             } else {
-                // 1. Najpierw fizyka i ruch obiektów
                 lvl11->update(dt, window, obrazenia);  
-
-                // 2. Od razu w tym samym miejscu sprawdzamy zasady gry!
                 int stan = lvl11->sprawdzStanGry();
 
                 if (stan == 1) { 
-                    // Wygrana!
-                    gameover.ustawWynik(true);           // Ustawi zielony napis "BRAWO..."
-                    currentState = GameState::GAME_OVER; // Przełączasz ekran gry na GameOver
+                    gameover.ustawWynik(true);          
+                    currentState = GameState::GAME_OVER; 
                     gameover.setActive(true); 
                 } 
                 else if (stan == 2) { 
-                    // Przegrana!
                     gameover.setActive(true); 
-                    gameover.ustawWynik(false);          // Ustawi czerwony napis "PRZEGRANA..."
-                    currentState = GameState::GAME_OVER; // Przełączasz ekran gry na GameOver
+                    gameover.ustawWynik(false);          
+                    currentState = GameState::GAME_OVER; 
                 }
             }
         }
     
-        // USUNĄŁEM STĄD TAMTEN WYRZUCONY LUZEM KOD, KTÓRY POWODOWAŁ CRASH!
         // RYSOWANIE
         window.clear(sf::Color::Cyan); 
         
@@ -335,7 +297,7 @@ lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
             lvl2->draw(window, dt); 
             menuPauzy.draw(window); 
         }
-         else if (currentState == GameState::LEVEL_3 && lvl3 != nullptr) {
+        else if (currentState == GameState::LEVEL_3 && lvl3 != nullptr) {
             lvl3->draw(window, dt); 
             menuPauzy.draw(window); 
         }
@@ -346,5 +308,7 @@ lvl3 = new Lvl3(p_czerw, p_nieb, p_zolt, p_czar, swinia, swinia_zolnierz, swinia
     }
     
     if (lvl11 != nullptr) delete lvl11;
+    if (lvl2 != nullptr) delete lvl2;
+    if (lvl3 != nullptr) delete lvl3;
     return 0;
 }

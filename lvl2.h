@@ -10,7 +10,6 @@
 #include "FizycznyObiekt.h"
 #include "ObslugaProcy.h"
 #include "SpecjalnePtaki.h"
-#include "FizycznyDebbugger.h" 
 #include "SystemKolizji.h" 
 
 class Lvl2
@@ -32,7 +31,8 @@ private:
     sf::RectangleShape kaboom;
     sf::Texture tlo;
     sf::RectangleShape tlo_lvl;
-  // --- ZMIENNE DO WIATRU ---
+    
+    // --- ZMIENNE DO WIATRU ---
     bool rysuj_wiatr = false;
     float czas_wiatru = 10.f;
     
@@ -42,24 +42,21 @@ private:
     float czas = 0.f;
     float czas_bezpieczenstwa = 0.2f;
     float czas_lotu_ptaka = 3.f; 
-      sf::Texture podmuch;
+    sf::Texture podmuch;
     sf::RectangleShape wiatr;
 
 public:
     bool wygrana = false;
     bool aktwyny = true;
-    FizycznyDebugger debugger; 
     SpecjalnePtaki managerMocy;
 
-
-Lvl2(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Material& mat_bomba, 
+    Lvl2(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Material& mat_bomba, 
          Material& mat_swinia, Material& mat_swinia_zolnierz, Material& mat_swinia_dziad,
          Material& mat_drw_kwad, Material& mat_drw_belka, Material& mat_drw_troj,
          Material& mat_lod_kwad, Material& mat_lod_belka, Material& mat_lod_troj,
          Material& mat_kam_kwad, Material& mat_kam_belka, Material& mat_kam_troj,
          Silnik_Obrazen& silauderzenia) 
     {
-        
         tlo.loadFromFile("../tekstury/lvl2.png"); 
         tlo.setSmooth(true);
         tlo_lvl.setTexture(&tlo);
@@ -82,14 +79,13 @@ Lvl2(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Materia
         kaboom.setOrigin({60.f, 60.f}); 
         
         proca = new ObslugaProcy({ 250.f, 600.f });
-        //podloga
+        
+        // podloga
         podloga = new FizycznyObiekt(worldId, mat_drw_belka, 960.f, 935.f, 1920.f, 300.f, TypKsztaltu::PROSTOKAT);
         b2Body_SetType(podloga->body, b2_staticBody);
         obiekty.push_back(podloga);
         podloga->niewidzialny = true;
         podloga->wlasciwosci.hp = 10000000.f;
-
-        //    LODOWO-KAMIENNA TWIERDZA
 
         // --- PARTER: KAMIENNE BASTIONY ---
         FizycznyObiekt* kamL = new FizycznyObiekt(worldId, mat_kam_belka, 1350.f, 705.f, 80.f, 160.f, TypKsztaltu::PROSTOKAT);
@@ -112,17 +108,9 @@ Lvl2(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Materia
         FizycznyObiekt* kamTroj = new FizycznyObiekt(worldId, mat_kam_troj, 1450.f, 435.f, 80.f, 80.f, TypKsztaltu::TROJKAT);
         obiekty.push_back(kamTroj);
 
-        // ==========================================
-        //             ARMIA 4 ŚWIŃ
-        // ==========================================
-
-        // Zwykła świnia ukryta na parterze 
+        // --- ARMIA 4 ŚWIŃ ---
         FizycznyObiekt* swinia1 = new FizycznyObiekt(worldId, mat_swinia, 1450.f, 750.f, 35.f, 0.f, TypKsztaltu::KOLO);    
-        
-        // Żołnierz na pierwszym piętrze 
         FizycznyObiekt* swinia2 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1450.f, 545.f, 40.f, 0.f, TypKsztaltu::KOLO);
-        
-        // Dwóch ochroniarzy na ziemi przed i za twierdzą 
         FizycznyObiekt* swinia3 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1200.f, 745.f, 40.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* swinia4 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1700.f, 745.f, 40.f, 0.f, TypKsztaltu::KOLO);
 
@@ -135,9 +123,8 @@ Lvl2(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Materia
         swinia2->wlasciwosci.typulec = Typ::SWINIA;
         swinia3->wlasciwosci.typulec = Typ::SWINIA;
         swinia4->wlasciwosci.typulec = Typ::SWINIA;
-        // ==========================================
-        //                   PTAKI
-        // ==========================================
+
+        // --- PTAKI ---
         FizycznyObiekt* ptak1 = new FizycznyObiekt(worldId, mat_czerw, 150.f, 900.f, 40.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* ptak2 = new FizycznyObiekt(worldId, mat_bomba, 100.f, 900.f, 40.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* ptak3 = new FizycznyObiekt(worldId, mat_zoltek, 50.f, 900.f, 40.f, 40.f, TypKsztaltu::TROJKAT); 
@@ -183,31 +170,21 @@ Lvl2(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Materia
     {
         if (!active || menu) return;
 
-        if (debugger.czyAktywny()) {
-            std::vector<FizycznyObiekt*> aktywne_obiekty;
-            for (auto obj : obiekty) {
-                if (obj != nullptr && obj->wlasciwosci.aktywny && !obj->wlasciwosci.swiezozniszczony && b2Body_IsValid(obj->body)) {
-                    aktywne_obiekty.push_back(obj);
-                }
-            }
-            debugger.obslugujZdarzenia(event, window, aktywne_obiekty);
-        } else {
-            if (aktualny_ptak != nullptr) {
-                proca->ObslugaWystrzalu(event, window, *aktualny_ptak, czas);
+        if (aktualny_ptak != nullptr) {
+            proca->ObslugaWystrzalu(event, window, *aktualny_ptak, czas);
+            
+            managerMocy.specjalnefunkcjeptakow(aktualny_ptak, event, obiekty, kulaognia, rysuj_kule, promien_kuli, wiatr, rysuj_wiatr, czas_wiatru);
+
+            if (rysuj_kule && !aktualny_ptak->wlasciwosci.swiezozniszczony && aktualny_ptak->wlasciwosci.typek == RodzajPtaka::BOMBA) {
+                sf::Vector2f pozBomby = (aktualny_ptak->wlasciwosci.typ == TypKsztaltu::PROSTOKAT) ? 
+                                         aktualny_ptak->pro.getPosition() : aktualny_ptak->kol.getPosition();
                 
-                managerMocy.specjalnefunkcjeptakow(aktualny_ptak, event, obiekty, kulaognia, rysuj_kule, promien_kuli, wiatr, rysuj_wiatr, czas_wiatru);
+                kulaognia.setPosition(pozBomby);
 
-                if (rysuj_kule && !aktualny_ptak->wlasciwosci.swiezozniszczony && aktualny_ptak->wlasciwosci.typek == RodzajPtaka::BOMBA) {
-                    sf::Vector2f pozBomby = (aktualny_ptak->wlasciwosci.typ == TypKsztaltu::PROSTOKAT) ? 
-                                             aktualny_ptak->pro.getPosition() : aktualny_ptak->kol.getPosition();
-                    
-                    kulaognia.setPosition(pozBomby);
-
-                    aktualny_ptak->wlasciwosci.hp = 0.f;
-                    aktualny_ptak->wlasciwosci.swiezozniszczony = true; 
-                    aktualny_ptak->wlasciwosci.czas_wybuchu = 1.2f; 
-                    std::cout << "[SYSTEM] Bomba zdetonowana przez gracza! Znika.\n";
-                }
+                aktualny_ptak->wlasciwosci.hp = 0.f;
+                aktualny_ptak->wlasciwosci.swiezozniszczony = true; 
+                aktualny_ptak->wlasciwosci.czas_wybuchu = 1.2f; 
+                std::cout << "[SYSTEM] Bomba zdetonowana przez gracza! Znika.\n";
             }
         }
     }
@@ -219,83 +196,72 @@ Lvl2(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Materia
             czas_bezpieczenstwa -= deltaTime;
         }
 
-        bool stanDebuggera = debugger.czyAktywny();
-        debugger.update(window);
+        b2World_Step(worldId, deltaTime, 4);
+        SystemKolizji::przetworzZderzenia(worldId, obrazenia);
 
-        if (stanDebuggera) {
-            for (auto obj : obiekty) {
-                if (obj != nullptr && obj->wlasciwosci.aktywny && !obj->wlasciwosci.swiezozniszczony && b2Body_IsValid(obj->body)) {
-                    obj->update(); 
-                }
+        if (rysuj_kule) {
+            promien_kuli += 1600.f * deltaTime; 
+            kulaognia.setRadius(promien_kuli);
+            kulaognia.setOrigin({promien_kuli, promien_kuli}); 
+            
+            if (promien_kuli >= 400.f) {
+                rysuj_kule = false;
             }
-        } else {
-            b2World_Step(worldId, deltaTime, 4);
-            SystemKolizji::przetworzZderzenia(worldId, obrazenia);
+        }
 
-            if (rysuj_kule) {
-                promien_kuli += 1600.f * deltaTime; 
-                kulaognia.setRadius(promien_kuli);
-                kulaognia.setOrigin({promien_kuli, promien_kuli}); 
-                
-                if (promien_kuli >= 400.f) {
-                    rysuj_kule = false;
-                }
+        for (auto obj : obiekty) {
+            if (obj->wlasciwosci.swiezozniszczony && b2Body_IsValid(obj->body)) {
+                obj->update(); 
+                b2DestroyBody(obj->body); 
+                std::cout << "[SYSTEM] Zniszczono fizyczny collider!\n";
             }
 
-            for (auto obj : obiekty) {
-                if (obj->wlasciwosci.swiezozniszczony && b2Body_IsValid(obj->body)) {
-                    obj->update(); 
-                    b2DestroyBody(obj->body); 
-                    std::cout << "[SYSTEM] Zniszczono fizyczny collider!\n";
-                }
+            if (obj->wlasciwosci.swiezozniszczony) {
+                obj->wlasciwosci.czas_wybuchu -= deltaTime; 
 
-                if (obj->wlasciwosci.swiezozniszczony) {
-                    obj->wlasciwosci.czas_wybuchu -= deltaTime; 
-
-                    if (obj->wlasciwosci.czas_wybuchu <= 0.0f) {
-                        obj->wlasciwosci.czas_wybuchu = 0.0f;
-                        obj->wlasciwosci.swiezozniszczony = false; 
-                        obj->wlasciwosci.aktywny = false; 
-                    }
-                }
-
-                if (obj->wlasciwosci.aktywny && !obj->wlasciwosci.swiezozniszczony) {
-                    obj->update();
+                if (obj->wlasciwosci.czas_wybuchu <= 0.0f) {
+                    obj->wlasciwosci.czas_wybuchu = 0.0f;
+                    obj->wlasciwosci.swiezozniszczony = false; 
+                    obj->wlasciwosci.aktywny = false; 
                 }
             }
 
-            if (aktualny_ptak != nullptr) {
-                if (aktualny_ptak->wlasciwosci.swiezozniszczony || aktualny_ptak->wlasciwosci.hp <= 0.f) {
-                    aktualny_ptak = nullptr;
-                    czas_lotu_ptaka = 3.0f; 
-                    std::cout << "[SYSTEM] Ptak zniszczony, odpinam.\n";
-                } 
-                else if (aktualny_ptak->wlasciwosci.stan == StanPtaka::LECI) {
-                    czas_lotu_ptaka -= deltaTime;
-                    
-                    if (czas_lotu_ptaka <= 0.0f) {
-                        aktualny_ptak->wlasciwosci.hp = 0.f;
-                        aktualny_ptak->wlasciwosci.swiezozniszczony = true; 
-                        aktualny_ptak->wlasciwosci.czas_wybuchu = 1.2f; 
-                        
-                        aktualny_ptak = nullptr; 
-                        czas_lotu_ptaka = 3.0f;  
-                        std::cout << "[SYSTEM] Czas lotu minął! Ptak wyparował.\n";
-                    }
-                }
+            if (obj->wlasciwosci.aktywny && !obj->wlasciwosci.swiezozniszczony) {
+                obj->update();
             }
+        }
 
-            if (aktualny_ptak == nullptr && !ptaki_w_kolejce.empty()) {
-                aktualny_ptak = ptaki_w_kolejce.front(); 
-                ptaki_w_kolejce.erase(ptaki_w_kolejce.begin()); 
-                aktualny_ptak->wlasciwosci.stan = StanPtaka::CZEKA_NA_PROCY; 
-                
-                b2Body_SetTransform(aktualny_ptak->body, { 250.f / Skala, 600.f / Skala }, b2Body_GetRotation(aktualny_ptak->body));
-                managerMocy.odnow_umiejetnosci();
-                
+        if (aktualny_ptak != nullptr) {
+            if (aktualny_ptak->wlasciwosci.swiezozniszczony || aktualny_ptak->wlasciwosci.hp <= 0.f) {
+                aktualny_ptak = nullptr;
                 czas_lotu_ptaka = 3.0f; 
-                std::cout << "[SYSTEM] Załadowano kolejnego ptaka na procę.\n";
+                std::cout << "[SYSTEM] Ptak zniszczony, odpinam.\n";
+            } 
+            else if (aktualny_ptak->wlasciwosci.stan == StanPtaka::LECI) {
+                czas_lotu_ptaka -= deltaTime;
+                
+                if (czas_lotu_ptaka <= 0.0f) {
+                    aktualny_ptak->wlasciwosci.hp = 0.f;
+                    aktualny_ptak->wlasciwosci.swiezozniszczony = true; 
+                    aktualny_ptak->wlasciwosci.czas_wybuchu = 1.2f; 
+                    
+                    aktualny_ptak = nullptr; 
+                    czas_lotu_ptaka = 3.0f;  
+                    std::cout << "[SYSTEM] Czas lotu minął! Ptak wyparował.\n";
+                }
             }
+        }
+
+        if (aktualny_ptak == nullptr && !ptaki_w_kolejce.empty()) {
+            aktualny_ptak = ptaki_w_kolejce.front(); 
+            ptaki_w_kolejce.erase(ptaki_w_kolejce.begin()); 
+            aktualny_ptak->wlasciwosci.stan = StanPtaka::CZEKA_NA_PROCY; 
+            
+            b2Body_SetTransform(aktualny_ptak->body, { 250.f / Skala, 600.f / Skala }, b2Body_GetRotation(aktualny_ptak->body));
+            managerMocy.odnow_umiejetnosci();
+            
+            czas_lotu_ptaka = 3.0f; 
+            std::cout << "[SYSTEM] Załadowano kolejnego ptaka na procę.\n";
         }
     }
 
@@ -362,10 +328,6 @@ Lvl2(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Materia
             else if (obj->wlasciwosci.typ == TypKsztaltu::KOLO) window.draw(obj->kol);
             else if (obj->wlasciwosci.typ == TypKsztaltu::TROJKAT) window.draw(obj->tro);
         }
-
-        if (debugger.czyAktywny()) {
-            debugger.draw(window, obiekty); 
-        }        
     }
 };
 

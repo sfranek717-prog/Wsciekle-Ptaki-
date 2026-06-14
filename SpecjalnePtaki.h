@@ -21,12 +21,10 @@ public:
         umijetnosc = true;
     }
 
-    // DODANE ZMIENNE WIATRU W ARGUMENTACH!
     void specjalnefunkcjeptakow(FizycznyObiekt* obj, const sf::Event& event, std::vector<FizycznyObiekt*>& obiekty, 
                                 sf::CircleShape& kulaognia, bool& rysuj_kule, float& promien_kuli,
                                 sf::RectangleShape& wiatr, bool& rysuj_wiatr, float& czas_wiatru)    {
        
-        // ==================== CZERWONIAK ====================
         if(obj->wlasciwosci.typek == RodzajPtaka::CZERWONIAK && obj->wlasciwosci.stan == StanPtaka::LECI)
         {
             if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
@@ -75,18 +73,15 @@ else if(obj->wlasciwosci.typek == RodzajPtaka::BOMBA && obj->wlasciwosci.stan ==
                 float dystans = std::sqrt(dx * dx + dy * dy);
 
                 if (dystans < promien_wybuchu) {
-                    // Liniowy spadek siły wybuchu wraz z odległością
                     float intensywnosc = 1.0f - (dystans / promien_wybuchu);
                     if (intensywnosc < 0.f) intensywnosc = 0.f;
 
                     target->wlasciwosci.hp -= max_obrazenia * intensywnosc;
 
-                    // ODRZUT FIZYCZNY: Usuwamy warunek "hp > 0.f" - Umarli też latają!
                     if (b2Body_GetType(target->body) == b2_dynamicBody) {
                         if (dystans > 0.01f) {
                             b2Vec2 wektor_kierunku = { dx / dystans, dy / dystans };
                             
-                            // Skalujemy podmuch masą obiektu, żeby małe klocki leciały jak szalone, a duże stawiały opór
                             float masa = b2Body_GetMass(target->body);
                             if (masa < 0.1f) masa = 1.0f;
 
@@ -113,7 +108,6 @@ else if(obj->wlasciwosci.typek == RodzajPtaka::BOMBA && obj->wlasciwosci.stan ==
     }
 }
         
-        // ==================== ZÓŁTEK ====================
         else if(obj->wlasciwosci.typek == RodzajPtaka::ZOLTEK && obj->wlasciwosci.stan == StanPtaka::LECI)
         {
             if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
@@ -126,7 +120,6 @@ else if(obj->wlasciwosci.typek == RodzajPtaka::BOMBA && obj->wlasciwosci.stan ==
             }
         }
         
-        // ==================== NIEBIESKI (PIONOWY PODMUCH) ====================
         else if(obj->wlasciwosci.typek == RodzajPtaka::NIEBIESKI && obj->wlasciwosci.stan == StanPtaka::LECI)
         {
             if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {

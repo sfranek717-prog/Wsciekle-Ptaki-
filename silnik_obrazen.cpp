@@ -43,15 +43,13 @@ void Silnik_Obrazen::aplikuj_obrazenia(Obiekt &objA, Obiekt &objB, float sila_ud
         std::cout << "OBIEKT ULEGL ZNISZCZENIU: " << objB.nazwa_obiektu << std::endl;
         
     }
-if (objA.hp <= 0 && !objA.swiezozniszczony) {
+if (objA.hp <= 0 && objA.swiezozniszczony) {
         objA.swiezozniszczony = true; 
-        objA.czas_wybuchu = 1.2f; 
         std::cout << "SILNIK: Obiekt A zniszczony! Start animacji BOOM: " << objA.nazwa_obiektu << std::endl;
     }
     
-    if (objB.hp <= 0 && !objB.swiezozniszczony) {
+    if (objB.hp <= 0 && objB.swiezozniszczony) {
         objB.swiezozniszczony = true; 
-        objB.czas_wybuchu = 1.2f; 
         std::cout << "SILNIK: Obiekt B zniszczony! Start animacji BOOM: " << objB.nazwa_obiektu << std::endl;
     }
 

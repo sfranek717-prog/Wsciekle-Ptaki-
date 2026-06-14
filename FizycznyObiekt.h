@@ -98,9 +98,6 @@ public:
             tro.setPoint(0, sf::Vector2f(szerokosc / 2.0f, 0.0f));       // Górny czubek
             tro.setPoint(1, sf::Vector2f(0.0f, wysokosc));               // Lewy dół
             tro.setPoint(2, sf::Vector2f(szerokosc, wysokosc));          // Prawy dół
-            
-            // Origin (punkt obrotu i pozycjonowania) musi być zsynchronizowany ze środkiem masy Box2D!
-            // Czyli ustawiamy go na środek w poziomie i w 2/3 wysokości od góry.
             tro.setOrigin(sf::Vector2f(szerokosc / 2.0f, wysokosc * (2.0f / 3.0f))); 
 tro.setTexture(&wlasciwosci.mat.tekstura); 
         }

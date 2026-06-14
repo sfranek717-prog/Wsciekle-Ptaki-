@@ -80,12 +80,11 @@ public:
     m.wytrzymalosc = w;
     m.zmieniamy = false;
 
-    // Ładujemy od razu obie tekstury bez żadnych IF-ów z "zmieniamy"
     m.tekstura.loadFromFile("../tekstury/" + plik);
     m.tekstura.setSmooth(true);
 
     if (!m.uszkodzonatekstura.loadFromFile("../tekstury/uszkodzona" + plik)) {
-        m.uszkodzonatekstura = m.tekstura; // Zabezpieczenie przed białym klockiem
+        m.uszkodzonatekstura = m.tekstura; 
     }
     m.uszkodzonatekstura.setSmooth(true);
 };

@@ -18,7 +18,6 @@ private:
     const float Skala = 30.f;
     bool rysuj_kule = false;
     float promien_kuli = 60.f;
-    
     bool rysuj_wiatr = false;
     float czas_wiatru = 10.f;
     bool wiatr_pozycja_ustawiona = false; 
@@ -51,7 +50,6 @@ public:
     bool aktwyny = true;
     SpecjalnePtaki managerMocy;
 
-    // POPRAWIONA KOLEJNOŚĆ MATERIAŁÓW (Czerwony, Niebieski, Żółty, Bomba)
     Lvl3(Material& mat_czerw, Material& mat_niebieski, Material& mat_zoltek, Material& mat_bomba,
          Material& mat_swinia, Material& mat_swinia_zolnierz, Material& mat_swinia_dziad,
          Material& mat_drw_kwad, Material& mat_drw_belka, Material& mat_drw_troj,
@@ -83,20 +81,12 @@ public:
         
         proca = new ObslugaProcy({ 250.f, 600.f });
 
-        // --- PODŁOGA --- 
-        podloga = new FizycznyObiekt(worldId, mat_drw_belka, 1920/2.f, 1100.f, 1920.f, 300.f, TypKsztaltu::PROSTOKAT);
+       podloga = new FizycznyObiekt(worldId, mat_drw_belka, 1920/2.f, 1100.f, 1920.f, 300.f, TypKsztaltu::PROSTOKAT);
         b2Body_SetType(podloga->body, b2_staticBody);
         obiekty.push_back(podloga);
         podloga->niewidzialny = true;
         podloga->wlasciwosci.hp = 10000000.f;
 
-        // =========================================================================
-        //    DWIE BLIŹNIACZE WIEŻE 
-        // =========================================================================
-
-        // -------------------------------------------------------------------------
-        // WIEŻA LEWA: KAMIENNA PODSTAWA + DREWNIANE PIĘTRO 
-        // -------------------------------------------------------------------------
         FizycznyObiekt* kamienL1 = new FizycznyObiekt(worldId, mat_kam_belka, 1050.f, 875.f, 40.f, 150.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* kamienL2 = new FizycznyObiekt(worldId, mat_kam_belka, 1150.f, 875.f, 40.f, 150.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* kamienL3 = new FizycznyObiekt(worldId, mat_kam_belka, 1250.f, 875.f, 40.f, 150.f, TypKsztaltu::PROSTOKAT);
@@ -122,9 +112,6 @@ public:
         FizycznyObiekt* wierzchKamienL = new FizycznyObiekt(worldId, mat_kam_troj, 1150.f, 590.f, 260.f, 100.f, TypKsztaltu::TROJKAT);
         obiekty.push_back(wierzchKamienL);
 
-        // -------------------------------------------------------------------------
-        // WIEŻA PRAWA: DREWNIANA PODSTAWA + KAMIENNE PIĘTRO (Centrum X = 1650)
-        // -------------------------------------------------------------------------
         FizycznyObiekt* drewnoP1 = new FizycznyObiekt(worldId, mat_drw_belka, 1550.f, 875.f, 40.f, 150.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* drewnoP2 = new FizycznyObiekt(worldId, mat_drw_belka, 1650.f, 875.f, 40.f, 150.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* drewnoP3 = new FizycznyObiekt(worldId, mat_drw_belka, 1750.f, 875.f, 40.f, 150.f, TypKsztaltu::PROSTOKAT);
@@ -152,11 +139,7 @@ public:
         FizycznyObiekt* wierzchDrewnoP = new FizycznyObiekt(worldId, mat_drw_troj, 1650.f, 590.f, 260.f, 100.f, TypKsztaltu::TROJKAT);
         obiekty.push_back(wierzchDrewnoP);
 
-        // =========================================================================
-        //    ARMIA 12 ŚWIŃ (ODSUNIĘTE O +150 W PRAWO)
-        // =========================================================================
-
-        // --- WIEŻA LEWA ---
+     
         FizycznyObiekt* s1 = new FizycznyObiekt(worldId, mat_swinia, 1100.f, 865.f, 25.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* s2 = new FizycznyObiekt(worldId, mat_swinia, 1200.f, 865.f, 25.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* s4 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1100.f, 685.f, 25.f, 0.f, TypKsztaltu::KOLO);
@@ -164,7 +147,6 @@ public:
         FizycznyObiekt* s6 = new FizycznyObiekt(worldId, mat_swinia, 1150.f, 515.f, 25.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* s10 = new FizycznyObiekt(worldId, mat_swinia_dziad, 950.f, 915.f, 35.f, 0.f, TypKsztaltu::KOLO); 
 
-        // --- WIEŻA PRAWA ---
         FizycznyObiekt* s3 = new FizycznyObiekt(worldId, mat_swinia, 1600.f, 865.f, 25.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* s12 = new FizycznyObiekt(worldId, mat_swinia, 1700.f, 865.f, 25.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* s8 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1600.f, 685.f, 25.f, 0.f, TypKsztaltu::KOLO);
@@ -182,9 +164,7 @@ public:
         obiekty.push_back(s7);  obiekty.push_back(s8);  obiekty.push_back(s9);
         obiekty.push_back(s10); obiekty.push_back(s11); obiekty.push_back(s12);
 
-        // =========================================================================
-        //    PTAKI (POWIĘKSZONE ROZMIARY)
-        // =========================================================================
+      
         FizycznyObiekt* p1 = new FizycznyObiekt(worldId, mat_czerw, 190.f, 915.f, 35.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* p2 = new FizycznyObiekt(worldId, mat_niebieski, 130.f, 920.f, 30.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* p3 = new FizycznyObiekt(worldId, mat_zoltek, 70.f, 920.f, 60.f, 60.f, TypKsztaltu::TROJKAT); 

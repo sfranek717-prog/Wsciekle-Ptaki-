@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <cmath> // Do std::sqrt
+#include <cmath> 
 #include <box2d/box2d.h> 
 #include <iostream> 
 #include "FizycznyObiekt.h"
@@ -43,7 +43,6 @@ public:
             }
         } 
         
-        // ==================== BOMBA ====================
 else if(obj->wlasciwosci.typek == RodzajPtaka::BOMBA && obj->wlasciwosci.stan == StanPtaka::LECI)
 {
     if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
@@ -51,12 +50,11 @@ else if(obj->wlasciwosci.typek == RodzajPtaka::BOMBA && obj->wlasciwosci.stan ==
         {
             b2Vec2 srodek_wybuchu = b2Body_GetPosition(obj->body);
             
-            // POPRAWIONE: Logiczne wartości w metrach Box2D
-            float promien_wybuchu = 12.0f;   // Około 360 pikseli zasięgu fali
-            float max_obrazenia = 1500.f;   // Potężne jebnięcie w centrum
-            float moc_odrzutu = 45.f;       // Dostosowana siła impulsu Box2D
+            float promien_wybuchu = 12.0f;  
+            float max_obrazenia = 1500.f;   
+            float moc_odrzutu = 45.f;      
 
-            // Pobieramy pozycję bezpośrednio ze sprite'a SFML ptaka
+            // Pobieramy pozycję 
             sf::Vector2f pozPtakaSfml = (obj->wlasciwosci.typ == TypKsztaltu::PROSTOKAT) ? obj->pro.getPosition() : obj->kol.getPosition();
             rysuj_kule = true;
             promien_kuli = 10.f; 

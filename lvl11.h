@@ -48,7 +48,7 @@ public:
     bool aktwyny = true;
     SpecjalnePtaki managerMocy;
 
-    Lvl11(Material& mat_bomba, Material& mat_czerw, Material& mat_zoltek,  
+    Lvl11(Material& mat_czerw, Material& mat_bomba, Material& mat_zoltek,  
           Material& mat_swinia, Material& mat_swinia_zolnierz, Material& mat_swinia_dziad,
           Material& mat_drw_kwad, Material& mat_drw_belka, Material& mat_drw_troj,
           Material& mat_lod_kwad, Material& mat_lod_belka, Material& mat_lod_troj,
@@ -75,44 +75,34 @@ public:
         
         proca = new ObslugaProcy({ 250.f, 600.f });
 
-        // --- PODŁOGA ---
         podloga = new FizycznyObiekt(worldId, mat_drw_belka, 960.f, 1100.f, 1920.f, 300.f, TypKsztaltu::PROSTOKAT);
         b2Body_SetType(podloga->body, b2_staticBody);
         obiekty.push_back(podloga);
         podloga->niewidzialny = true;
         podloga->wlasciwosci.hp = 10000000.f;
 
-        // ==========================================
-        //    POTĘŻNA KONSTRUKCJA
-        // ==========================================
-
-        // --- PARTER: DUŻE, CIĘŻKIE FILARY (Drewno) ---
+   
         FizycznyObiekt* filarL1 = new FizycznyObiekt(worldId, mat_drw_belka, 1200.f, 870.f, 60.f, 160.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* filarS1 = new FizycznyObiekt(worldId, mat_drw_belka, 1450.f, 870.f, 60.f, 160.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* filarP1 = new FizycznyObiekt(worldId, mat_drw_belka, 1700.f, 870.f, 60.f, 160.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(filarL1); obiekty.push_back(filarS1); obiekty.push_back(filarP1);
 
-        // --- STROP 1: DŁUGIE DESKI ---
         FizycznyObiekt* stropL1 = new FizycznyObiekt(worldId, mat_drw_belka, 1325.f, 770.f, 280.f, 40.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* stropP1 = new FizycznyObiekt(worldId, mat_drw_belka, 1575.f, 770.f, 280.f, 40.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(stropL1); obiekty.push_back(stropP1);
 
-        // --- 1. PIĘTRO: SMUKLEJSZE KLOCKI ---
         FizycznyObiekt* filarL2 = new FizycznyObiekt(worldId, mat_drw_belka, 1250.f, 690.f, 40.f, 120.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* filarS2 = new FizycznyObiekt(worldId, mat_drw_belka, 1450.f, 690.f, 40.f, 120.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* filarP2 = new FizycznyObiekt(worldId, mat_drw_belka, 1650.f, 690.f, 40.f, 120.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(filarL2); obiekty.push_back(filarS2); obiekty.push_back(filarP2);
 
-        // --- STROP 2: ŚRODKOWA PLATFORMA ---
         FizycznyObiekt* strop2 = new FizycznyObiekt(worldId, mat_drw_belka, 1450.f, 615.f, 440.f, 30.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(strop2);
 
-        // --- 2. PIĘTRO: MAŁE WSPORNIKI ---
         FizycznyObiekt* malyL = new FizycznyObiekt(worldId, mat_drw_belka, 1350.f, 560.f, 30.f, 80.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* malyP = new FizycznyObiekt(worldId, mat_drw_belka, 1550.f, 560.f, 30.f, 80.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(malyL); obiekty.push_back(malyP);
 
-        // --- DACH: BELKA + OZDOBNE TRÓJKĄTY ---
         FizycznyObiekt* dachBelka = new FizycznyObiekt(worldId, mat_drw_belka, 1450.f, 505.f, 260.f, 30.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(dachBelka);
 
@@ -120,9 +110,7 @@ public:
         FizycznyObiekt* trojkatP = new FizycznyObiekt(worldId, mat_drw_troj, 1530.f, 460.f, 60.f, 60.f, TypKsztaltu::TROJKAT);
         obiekty.push_back(trojkatL); obiekty.push_back(trojkatP);
 
-        // ==========================================
-        //          ARMIA 6 ŚWIŃ
-        // ==========================================
+
         FizycznyObiekt* swinia1 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1325.f, 905.f, 45.f, 0.f, TypKsztaltu::KOLO);    
         FizycznyObiekt* swinia2 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1575.f, 905.f, 45.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* swinia3 = new FizycznyObiekt(worldId, mat_swinia, 1350.f, 715.f, 35.f, 0.f, TypKsztaltu::KOLO);

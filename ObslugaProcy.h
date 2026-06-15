@@ -148,7 +148,7 @@ public:
                 float kat_prawy = std::atan2(dpy, dpx) * (180.f / PI);
                 float grubosc_prawa = bazowa_grubosc * (sila_naciagu_max / (sila_naciagu_max + dlugosc_prawa * 0.5f));
 
-                guma_prawa.setSize({ dlugosc_prawa+10, grubosc_prawa });
+                guma_prawa.setSize({ dlugosc_prawa+60, grubosc_prawa });
                 guma_prawa.setOrigin({ 0.f, grubosc_prawa / 2.f });
                 guma_prawa.setRotation(sf::degrees(kat_prawy)); 
             }

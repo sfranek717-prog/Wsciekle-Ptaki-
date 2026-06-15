@@ -32,7 +32,6 @@ private:
     sf::Texture tlo;
     sf::RectangleShape tlo_lvl;
     
-    // --- ZMIENNE DO WIATRU ---
     bool rysuj_wiatr = false;
     float czas_wiatru = 10.f;
     
@@ -87,28 +86,23 @@ public:
         podloga->niewidzialny = true;
         podloga->wlasciwosci.hp = 10000000.f;
 
-        // --- PARTER: KAMIENNE BASTIONY ---
         FizycznyObiekt* kamL = new FizycznyObiekt(worldId, mat_kam_belka, 1350.f, 705.f, 80.f, 160.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* kamP = new FizycznyObiekt(worldId, mat_kam_belka, 1550.f, 705.f, 80.f, 160.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(kamL); obiekty.push_back(kamP);
 
-        // --- STROP 1: GRUBA LODOWA PŁYTA ---
         FizycznyObiekt* stropLod = new FizycznyObiekt(worldId, mat_lod_belka, 1450.f, 605.f, 300.f, 40.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(stropLod);
 
-        // --- 1. PIĘTRO: LODOWE BLOKI ---
         FizycznyObiekt* lodKwadL = new FizycznyObiekt(worldId, mat_lod_kwad, 1380.f, 545.f, 80.f, 80.f, TypKsztaltu::PROSTOKAT);
         FizycznyObiekt* lodKwadP = new FizycznyObiekt(worldId, mat_lod_kwad, 1520.f, 545.f, 80.f, 80.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(lodKwadL); obiekty.push_back(lodKwadP);
 
-        // --- DACH: DREWNIANA DESKA + KAMIENNY TRÓJKĄT ---
         FizycznyObiekt* stropDrw = new FizycznyObiekt(worldId, mat_drw_belka, 1450.f, 490.f, 240.f, 30.f, TypKsztaltu::PROSTOKAT);
         obiekty.push_back(stropDrw);
 
         FizycznyObiekt* kamTroj = new FizycznyObiekt(worldId, mat_kam_troj, 1450.f, 435.f, 80.f, 80.f, TypKsztaltu::TROJKAT);
         obiekty.push_back(kamTroj);
 
-        // --- ARMIA 4 ŚWIŃ ---
         FizycznyObiekt* swinia1 = new FizycznyObiekt(worldId, mat_swinia, 1450.f, 750.f, 35.f, 0.f, TypKsztaltu::KOLO);    
         FizycznyObiekt* swinia2 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1450.f, 545.f, 40.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* swinia3 = new FizycznyObiekt(worldId, mat_swinia_zolnierz, 1200.f, 745.f, 40.f, 0.f, TypKsztaltu::KOLO);
@@ -124,7 +118,6 @@ public:
         swinia3->wlasciwosci.typulec = Typ::SWINIA;
         swinia4->wlasciwosci.typulec = Typ::SWINIA;
 
-        // --- PTAKI ---
         FizycznyObiekt* ptak1 = new FizycznyObiekt(worldId, mat_czerw, 150.f, 900.f, 40.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* ptak2 = new FizycznyObiekt(worldId, mat_bomba, 100.f, 900.f, 40.f, 0.f, TypKsztaltu::KOLO);
         FizycznyObiekt* ptak3 = new FizycznyObiekt(worldId, mat_zoltek, 50.f, 900.f, 40.f, 40.f, TypKsztaltu::TROJKAT); 

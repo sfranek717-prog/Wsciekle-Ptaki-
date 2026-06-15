@@ -11,7 +11,6 @@ add_executable(Wsciekle_Ptaki
     main.cpp
     obiekt.h 
     silnik_obrazen.h silnik_obrazen.cpp
-    FizycznyDebbugger.h
      
 )
 

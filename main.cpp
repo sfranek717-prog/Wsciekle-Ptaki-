@@ -96,20 +96,20 @@ int main() {
                         currentState = GameState::LEVEL_2;
                         panelLvl.setActive(false);
                         if (lvl2 != nullptr) delete lvl2; 
-                        // POPRAWIONE: Usunięto nadmiarowy p_nieb, stała liczba 16 argumentów
-                        lvl2 = new Lvl2(p_czerw, p_czar, p_zolt, swinia, swinia_zolnierz, swinia_dziad, 
+                        // POPRAWIONE: Dopasowano argumenty do nowego konstruktora Lvl2 (dokładnie 17 argumentów)
+                        lvl2 = new Lvl2(p_czerw, p_nieb, p_czar, p_zolt, swinia, swinia_zolnierz, swinia_dziad, 
                                         drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
-                                        kam_kwad, kam_belka, kam_troj, obrazenia);
+                                        kam_kwad, kam_belka, kam_troj,  obrazenia);
                     }
                     // Ładowanie Poziomu 3
                     else if (panelLvl.isLvl3Clicked(worldPos)) {
                         currentState = GameState::LEVEL_3;
                         panelLvl.setActive(false);
                         if (lvl3 != nullptr) delete lvl3; 
-                        // POPRAWIONE: Struktura argumentów identyczna jak w Lvl2 (dodany lód)
+                        // POPRAWIONE: Dopasowano argumenty do nowego konstruktora Lvl3 tak jak w Lvl2
                         lvl3 = new Lvl3(p_czerw, p_czar, p_zolt, swinia, swinia_zolnierz, swinia_dziad, 
                                         drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
-                                        kam_kwad, kam_belka, kam_troj, obrazenia);
+                                        kam_kwad, kam_belka, kam_troj,  obrazenia);
                     }
                     else if (panelLvl.isExitClicked(worldPos)) {
                         panelLvl.setActive(false);
@@ -165,7 +165,7 @@ int main() {
                         delete lvl2;
                         lvl2 = new Lvl2(p_czerw, p_czar, p_zolt, swinia, swinia_zolnierz, swinia_dziad, 
                                         drw_kwad, drw_belka, drw_troj, lod_kwad, lod_belka, lod_troj, 
-                                        kam_kwad, kam_belka, kam_troj, obrazenia);
+                                        kam_kwad, kam_belka, kam_troj, p_nieb, obrazenia);
                         menuPauzy.setAktywne(false);
                     }
                     else if (menuPauzy.isExitClicked(worldPos)) {

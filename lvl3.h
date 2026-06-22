@@ -56,7 +56,7 @@ public:
          Silnik_Obrazen& silauderzenia) 
     {
         // Ustawienia tła poziomu 3
-        tlo.loadFromFile("../tekstury/lvl3.jpg"); // Zmiana tekstury na lvl3
+        tlo.loadFromFile("../tekstury/lvl3.png"); // Zmiana tekstury na lvl3
         tlo.setSmooth(true);
         tlo_lvl.setTexture(&tlo);
         tlo_lvl.setPosition({0.f,0.f});

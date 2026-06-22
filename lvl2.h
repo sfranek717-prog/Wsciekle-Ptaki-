@@ -56,7 +56,7 @@ public:
          Silnik_Obrazen& silauderzenia) 
     {
         // Ustawienia tła poziomu
-        tlo.loadFromFile("../tekstury/lvl1.jpg");
+        tlo.loadFromFile("../tekstury/lvl2.png");
         tlo.setSmooth(true);
         tlo_lvl.setTexture(&tlo);
         tlo_lvl.setPosition({0.f,0.f});
